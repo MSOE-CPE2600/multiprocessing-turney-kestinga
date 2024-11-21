@@ -99,7 +99,7 @@ imgRawImage* loadJpegImageFile(const char* lpFilename)
 	fHandle = fopen(lpFilename, "rb");
 	if(fHandle == NULL) {
 		#ifdef DEBUG
-			fprintf(stderr, "%s:%u: Failed to read file %s\n", __FILE__, __LINE__, lpFilename);
+			fprintf(stderr, "%s:%d: Failed to read file %s\n", __FILE__, __LINE__, lpFilename);
 		#endif
 		return NULL; /* ToDo */
 	}
@@ -118,7 +118,7 @@ imgRawImage* loadJpegImageFile(const char* lpFilename)
 	#ifdef DEBUG
 		fprintf(
 			stderr,
-			"%s:%u: Reading JPEG with dimensions %lu x %lu and %u components\n",
+			"%s:%d: Reading JPEG with dimensions %lu x %lu and %d components\n",
 			__FILE__, __LINE__,
 			imgWidth, imgHeight, numComponents
 		);
@@ -160,7 +160,7 @@ int storeJpegImageFile(const imgRawImage* lpImage,const char* lpFilename)
 	fHandle = fopen(lpFilename, "wb");
 	if(fHandle == NULL) {
 		#ifdef DEBUG
-			fprintf(stderr, "%s:%u Failed to open output file %s\n", __FILE__, __LINE__, lpFilename);
+			fprintf(stderr, "%s:%d Failed to open output file %s\n", __FILE__, __LINE__, lpFilename);
 		#endif
 		return 1;
 	}

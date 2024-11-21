@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-c -Wall -g
-LDFLAGS=-ljpeg
-SOURCES= mandel.c jpegrw.c 
+LDFLAGS=-ljpeg -lpthread -lrt
+SOURCES= mandel.c jpegrw.c mandelmovie.c
 OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=mandel
+EXECUTABLE=mandelmovie
 
 all: $(SOURCES) $(EXECUTABLE) 
 
@@ -18,4 +18,4 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) -MM $< > $*.d
 
 clean:
-	rm -rf $(OBJECTS) $(EXECUTABLE) *.d
+	rm -rf $(OBJECTS) $(EXECUTABLE) *.d images/* mandel.mpg

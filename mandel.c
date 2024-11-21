@@ -19,7 +19,7 @@ static void compute_image( imgRawImage *img, double xmin, double xmax,
 static void show_help();
 
 
-int main( int argc, char *argv[] )
+int mandel(int argc, char *argv[])
 {
 	char c;
 

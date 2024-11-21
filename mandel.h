@@ -1,0 +1,1 @@
+int mandel(int argc, char *argv[]);
