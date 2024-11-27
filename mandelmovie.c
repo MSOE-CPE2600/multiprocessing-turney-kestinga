@@ -1,4 +1,4 @@
-/* Lab 11 - Multiprocessing
+/* Lab 11 and 12 - Multiprocessing
  * 11/20/2024
  * Abe Kesting
  * CPE 2600 111
@@ -26,11 +26,12 @@ int main(int argc, char *argv[]) {
 	char*    image_width = "1000";
 	char*    image_height = "1000";
 	char*    max = "1000";
+    char* threads = "1";
     int children = 1;
 	// For each command line argument given,
 	// override the appropriate configuration value.
 
-	while((c = getopt(argc,argv,"x:y:s:W:H:m:n:h"))!=-1) {
+	while((c = getopt(argc,argv,"x:y:s:W:H:m:n:t:h"))!=-1) {
 		switch(c) 
 		{
 			case 'x':
@@ -54,12 +55,16 @@ int main(int argc, char *argv[]) {
             case 'n':
                 children = atoi(optarg);
                 break;
+            case 't':
+                threads = optarg;
+                break;
 			case 'h':
 				exit(1);
 				break;
 		}
 
 	}
+    // printf("threads: %s\n", threads); //gives right number
 
     sem_t *sem = mmap(NULL, sizeof(void*), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     if (sem == MAP_FAILED) {
@@ -75,7 +80,7 @@ int main(int argc, char *argv[]) {
     }
 
     //set up the argument things to put into the given code
-    int newargc = 15;
+    int newargc = 17;
     char *newargv[newargc];
     newargv[0] = "mandel";
     newargv[1] = "-W";
@@ -88,6 +93,8 @@ int main(int argc, char *argv[]) {
     newargv[8] = xcenter;
     newargv[9] = "-y";
     newargv[10] = ycenter;
+    newargv[11] = "-t";
+    newargv[12] = threads;
     
     int numImages = 0;
     //keep all the pids so we can wait for all of them. there will be 50 for 50 images
@@ -104,21 +111,21 @@ int main(int argc, char *argv[]) {
         pid[numImages] = fork();
         if (pid[numImages] == 0) { //in the child process only
 
-            newargv[11] = "-s";
+            newargv[13] = "-s";
             char buffer1[50];
             //change only the scale for each iteration
             sprintf(buffer1, "%f", xscale/((numImages+1)*(numImages+1)/10.0));
-            newargv[12] = buffer1;
+            newargv[14] = buffer1;
             
 
-            newargv[13] = "-o";
+            newargv[15] = "-o";
             char buffer2[50];
             //also change the name each time to be numbered properly
             sprintf(buffer2, "images/mandel%d.jpg", numImages+1);
-            newargv[14] = buffer2;
+            newargv[16] = buffer2;
             
             //run the given program
-            printf("generating image #%d\n", numImages+1);
+            printf("\033[31mgenerating image #%d\033[0m\n", numImages+1);
             mandel(newargc, newargv);
 
             sem_post(sem); //make a slot available to the parent
