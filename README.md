@@ -10,7 +10,7 @@ These results show that increasing the processes used will improve the runtime o
 <p></p>
 <p></p>
 <h3>Multithreading</h3>
-<p>I split the image vertically to be processed in slices. 4 threads = 4 slices. It passes in a large structure with all the parameters for the "interations_at_point" function</p>
+<p>I split the image vertically to be processed in slices. 4 threads = 4 slices. It passes in a large structure with all the parameters for the "interations_at_point" function. The amount of threads is decided by the command line argument "-t"</p>
 
         1	    2	    4  	    8	    16	    threads
     1	218.467	169.777	110.874	79.157	59.799	
